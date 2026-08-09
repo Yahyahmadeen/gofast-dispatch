@@ -1,0 +1,16 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
+export default function CustomerOverview() {
+  const navigate = useNavigate(); const { user } = useAuth(); const name = user?.full_name?.split(" ")[0] || "there";
+  return <section>
+    <div className="breadcrumb">Customer / <strong>Overview</strong></div>
+    <div className="welcome-hero customer-hero"><div><span className="eyebrow">SMARTER DELIVERY</span><h1>Good afternoon, {name}.<br/><em>Ready to send?</em></h1><p>Book a pickup in seconds and keep every delivery visible from pickup to proof of delivery.</p><div className="hero-actions"><button className="primary-btn" onClick={()=>navigate("/customer/new-delivery")}>＋ New delivery</button><button className="ghost-btn" onClick={()=>navigate("/customer/active")}>Track a package →</button></div></div><div className="hero-art"><div className="route-line"><span>●</span><i/><span>●</span></div><div className="delivery-card"><b>GOFAST</b><strong>Yola → Jimeta</strong><small>Rider assigned · 12 min away</small><div className="progress"><i/></div></div></div></div>
+    <div className="stat-grid four"><Stat label="Total orders" value="24" trend="+8.2%"/><Stat label="In delivery" value="02" trend="Live now"/><Stat label="Delivered" value="21" trend="87.5% success"/><Stat label="Saved addresses" value="06" trend="Quick checkout"/></div>
+    <div className="content-grid two-one"><Panel title="Recent deliveries" action="View all" onClick={()=>navigate("/customer/orders")}><div className="table-list"><Order id="GF-10482" route="Yola • Jimeta" status="In transit" tone="orange" time="12 min ago"/><Order id="GF-10471" route="GRA • Jimeta" status="Delivered" tone="green" time="Yesterday"/><Order id="GF-10452" route="Luggere • Yola" status="Delivered" tone="green" time="Aug 7"/></div></Panel><Panel title="Quick actions"><Quick icon="＋" title="Create delivery" text="Send a package now" onClick={()=>navigate("/customer/new-delivery")}/><Quick icon="⌖" title="Track order" text="Find your rider" onClick={()=>navigate("/customer/active")}/><Quick icon="⌂" title="Saved address" text="Manage locations" onClick={()=>navigate("/customer/addresses")}/></Panel></div>
+  </section>;
+}
+function Stat({label,value,trend}){return <div className="stat-card"><span>{label}</span><strong>{value}</strong><small>{trend}</small></div>}
+function Panel({title,action,onClick,children}){return <div className="panel"><div className="panel-head"><div><span className="eyebrow">GOFAST</span><h2>{title}</h2></div>{action&&<button className="text-btn" onClick={onClick}>{action} →</button>}</div>{children}</div>}
+function Order({id,route,status,tone,time}){return <button className="order-row" onClick={()=>alert(`${id} selected — tracking module will open here.`)}><div className="order-icon">▤</div><div className="row-main"><strong>{id}</strong><small>{route}</small></div><div className={`status ${tone}`}>{status}</div><small className="row-time">{time}</small><span>›</span></button>}
+function Quick({icon,title,text,onClick}){return <button className="quick-row" onClick={onClick}><span className="quick-icon">{icon}</span><span><strong>{title}</strong><small>{text}</small></span><b>→</b></button>}
