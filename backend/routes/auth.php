@@ -20,6 +20,12 @@ if ($method === "POST" && $action === "login") {
     exit;
 }
 
+if ($method === "GET" && $action === "verify-email") {
+
+    $authController->verifyEmail();
+    exit;
+}
+
 http_response_code(404);
 
 echo json_encode([

@@ -42,7 +42,8 @@ class User
         ?string $email,
         ?string $phone,
         string $password,
-        string $role = "customer"
+        string $role = "customer",
+        int $emailVerified = 0
     ): int {
 
         $passwordHash = password_hash(
@@ -58,7 +59,8 @@ class User
                 phone,
                 password_hash,
                 role,
-                status
+                status,
+                email_verified
             )
             VALUES
             (
@@ -67,7 +69,8 @@ class User
                 :phone,
                 :password_hash,
                 :role,
-                'active'
+                'active',
+                :email_verified
             )
         ";
 
@@ -78,7 +81,8 @@ class User
             "email" => $email,
             "phone" => $phone,
             "password_hash" => $passwordHash,
-            "role" => $role
+            "role" => $role,
+            "email_verified" => $emailVerified
         ]);
 
         return (int) $this->db->lastInsertId();
