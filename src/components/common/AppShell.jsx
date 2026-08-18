@@ -13,7 +13,7 @@ const nav = {
   customer: [["Overview","▦",""],["New delivery","＋","/new-delivery"],["Live tracking","⌖","/active"],["Orders","▤","/orders"],["Addresses","⌂","/addresses"],["Profile","◯","/profile"]],
   rider: [["Overview","▦",""],["Incoming orders","↘","/orders"],["My deliveries","▤","/deliveries"],["Earnings & payouts","₦","/earnings"],["Availability","◉","/availability"],["Profile & verification","◯","/profile"]],
   dispatcher: [["Operations","▦",""],["Live orders","⌖","/orders"],["Rider assignment","↔","/assignment"],["Rider payouts","₦","/cash"],["Incidents","!","/incidents"],["Activity log","◷","/activity"]],
-  admin: [["Dashboard","▦",""],["Orders","▤","/orders"],["Customers","◯","/customers"],["Riders & verification","🚚","/riders"],["Staff","♟","/staff"],["Branches","⌖","/branches"],["Reports","◫","/reports"],["Settings","⚙","/settings"]],
+  admin: [["Dashboard","▦",""],["Orders","▤","/orders"],["Customers","◯","/customers"],["Riders & verification","🚚","/riders"],["Staff","♟","/staff"],["Rider payouts","₦","/payouts"],["Branches","⌖","/branches"],["Reports","◫","/reports"],["Settings","⚙","/settings"]],
 };
 
 export default function AppShell({ role }) {

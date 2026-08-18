@@ -1,0 +1,13 @@
+import RoleLayout from "../layouts/RoleLayout";
+import Icon from "../components/common/Icon";
+
+const data = {
+  rider: { title: "Today at a glance", subtitle: "Keep an eye on your deliveries and earnings.", stats: [["Active deliveries", "0", "Ready for pickup"], ["Completed today", "0", "Successful drops"], ["Today's earnings", "₦0", "Before reconciliation"], ["Availability", "OFF", "Toggle when ready"]], accent: "Your next delivery will appear here." },
+  dispatcher: { title: "Dispatch control center", subtitle: "Monitor every active order and rider in one place.", stats: [["Live orders", "0", "Currently moving"], ["Unassigned", "0", "Need a rider"], ["Active riders", "0", "Available now"], ["Cash today", "₦0", "Awaiting reconciliation"]], accent: "No live orders right now." },
+  admin: { title: "Operations overview", subtitle: "A clear view of GOFAST performance across your network.", stats: [["Orders today", "0", "All branches"], ["Completed", "0", "Successful deliveries"], ["Active riders", "0", "Currently available"], ["Revenue today", "₦0", "Delivery revenue"]], accent: "Your operational metrics will appear here." },
+};
+
+export default function RoleDashboard({ role }) {
+  const d = data[role];
+  return <RoleLayout role={role}><section className="hero-row"><div><span className="eyebrow orange">OPERATIONS</span><h2>{d.title}</h2><p>{d.subtitle}</p></div><button className="primary-btn"><Icon name="plus" size={17}/> Create order</button></section><section className="stat-grid">{d.stats.map(([label,value,meta])=><div className="metric-card" key={label}><div className="metric-top"><span>{label}</span><Icon name="chart" size={16}/></div><strong>{value}</strong><small>{meta}</small></div>)}</section><section className="content-grid"><div className="panel large"><div className="panel-heading"><div><span className="eyebrow">LIVE VIEW</span><h3>Activity</h3></div><button className="text-btn">View details <Icon name="arrow" size={14}/></button></div><div className="empty-panel"><div className="empty-symbol"><Icon name="box" size={26}/></div><strong>{d.accent}</strong><span>Data will appear here once your GOFAST workflow is active.</span></div></div><div className="panel"><div className="panel-heading"><div><span className="eyebrow">QUICK ACCESS</span><h3>Shortcuts</h3></div></div>{["Manage deliveries","View reports","Update availability"].map((item,i)=><button className="shortcut" key={item}><span className="shortcut-icon"><Icon name={i===0?"truck":i===1?"chart":"settings"}/></span><span><strong>{item}</strong><small>Open workspace</small></span><Icon name="arrow" size={15}/></button>)}</div></section></RoleLayout>;
+}

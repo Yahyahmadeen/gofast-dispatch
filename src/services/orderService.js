@@ -103,3 +103,12 @@ export const acceptOrder = async (order_id) => {
 
     return response.data;
 };
+export const getAvailableRiders = async () => {
+    const response = await api.get("", {
+        params: {
+            route: "orders",
+            action: "available-riders",
+        },
+    });
+    return response.data;
+};

@@ -9,10 +9,12 @@ import DispatcherPayouts from '../pages/dispatcher/DispatcherPayouts';
 import AdminRiders from '../pages/admin/AdminRiders';
 import AdminCustomers from '../pages/admin/AdminCustomers';
 import AdminStaff from '../pages/admin/AdminStaff';
+import AdminPayouts from '../pages/admin/AdminPayouts';
 import AppShell from '../components/common/AppShell';
 import CustomerOverview from '../pages/customer/CustomerOverview';
 import NewDelivery from '../pages/customer/NewDelivery';
 import CustomerOrders from '../pages/customer/CustomerOrders';
+import PaymentPage from '../pages/customer/PaymentPage';
 import RiderOverview from '../pages/rider/RiderOverview';
 import RiderDeliveries from '../pages/rider/RiderDeliveries';
 import DispatcherOverview from '../pages/dispatcher/DispatcherOverview';
@@ -40,6 +42,7 @@ export default function AppRoutes() {
       <Route path="new-delivery" element={<NewDelivery />} />
       <Route path="active" element={<CustomerOrders />} />
       <Route path="orders" element={<CustomerOrders />} />
+      <Route path="payment" element={<PaymentPage />} />
       <Route path="addresses" element={<Placeholder title="Saved addresses" description="Manage your frequently used pickup and drop-off locations." />} />
       <Route path="notifications" element={<Placeholder title="Notifications" description="Delivery updates and operational messages will appear here." />} />
       <Route path="profile" element={<Placeholder title="Profile" description="Manage your customer account and contact details." />} />
@@ -78,6 +81,7 @@ export default function AppRoutes() {
       <Route path="customers" element={<AdminCustomers />} />
       <Route path="riders" element={<AdminRiders />} />
       <Route path="staff" element={<AdminStaff />} />
+      <Route path="payouts" element={<AdminPayouts />} />
       <Route path="branches" element={<Placeholder title="Branches" description="Manage Yola and future operating branches." />} />
       <Route path="reports" element={<Placeholder title="Reports & analytics" description="Review revenue, delivery success and performance." />} />
       <Route path="settings" element={<Placeholder title="System settings" description="Manage branding, notifications and platform settings." />} />

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createOrder } from "../../services/orderService";
+import { initializePayment } from "../../services/financeService";
 
 const initialForm = {
   pickup_address: "",
@@ -8,7 +9,6 @@ const initialForm = {
   recipient_name: "",
   recipient_phone: "",
   package_description: "",
-  cod_amount: "",
   delivery_fee: "",
   branch: "Yola",
   notes: "",
@@ -39,8 +39,21 @@ export default function NewDelivery() {
         return;
       }
 
-      setMessage(`Order ${response.data?.tracking_number || "created"} created successfully.`);
-      window.setTimeout(() => navigate("/customer/orders"), 900);
+      const orderId = response.data?.order_id;
+      if (!orderId) {
+        setError("Order was created but a payment session could not be started.");
+        return;
+      }
+
+      // GOFAST uses Paystack's hosted checkout. The backend initializes the
+      // transaction with the secret key and returns a secure checkout URL.
+      const payment = await initializePayment(Number(orderId));
+      if (!payment?.success || !payment.data?.authorization_url) {
+        setError(payment?.message || "Delivery was created, but Paystack checkout could not be started. You can retry payment from My Orders.");
+        return;
+      }
+
+      window.location.assign(payment.data.authorization_url);
     } catch (err) {
       console.error("Create order error:", err);
       setError(err.response?.data?.message || "Unable to connect to the GOFAST server. Please sign in again if your session has expired.");
@@ -87,14 +100,15 @@ export default function NewDelivery() {
               <Field label="Recipient name" name="recipient_name" value={form.recipient_name} onChange={change} placeholder="Full name" required />
               <Field label="Recipient phone" name="recipient_phone" type="tel" value={form.recipient_phone} onChange={change} placeholder="08012345678" required />
               <div className="form-field full-width"><label htmlFor="package_description">Package description</label><textarea id="package_description" name="package_description" value={form.package_description} onChange={change} placeholder="e.g. Clothes, documents, electronics..." required /></div>
-              <Field label="Cash on delivery (₦)" name="cod_amount" type="number" min="0" value={form.cod_amount} onChange={change} placeholder="0" />
               <Field label="Delivery notes" name="notes" value={form.notes} onChange={change} placeholder="Optional instructions for the rider" />
             </div>
           </section>
 
+          <div className="payment-note"><strong>Payment required before dispatch.</strong><span>GOFAST accepts online payment only. After you submit this delivery, you will be taken to the secure Paystack checkout.</span></div>
+
           <div className="form-actions">
             <button type="button" className="ghost-btn" onClick={() => navigate("/customer")} disabled={busy}>Cancel</button>
-            <button type="submit" className="primary-btn" disabled={busy}>{busy ? "Creating delivery…" : "Create delivery →"}</button>
+            <button type="submit" className="primary-btn" disabled={busy}>{busy ? "Opening secure payment…" : "Continue to payment →"}</button>
           </div>
         </form>
 

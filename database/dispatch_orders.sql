@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS dispatch_orders (
   package_description VARCHAR(255) NOT NULL,
   cod_amount DECIMAL(12,2) NOT NULL DEFAULT 0,
   delivery_fee DECIMAL(12,2) NOT NULL DEFAULT 0,
+  payment_status ENUM('pending','paid','failed','refunded') NOT NULL DEFAULT 'pending',
   status ENUM('pending','assigned','picked_up','in_transit','delivered','failed','returned') NOT NULL DEFAULT 'pending',
   proof_type ENUM('none','photo','otp','signature') NOT NULL DEFAULT 'none',
   proof_path VARCHAR(255) NULL,

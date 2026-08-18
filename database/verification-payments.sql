@@ -1,5 +1,11 @@
 USE gofast_dispatch;
 
+-- Online payment is mandatory for dispatch orders.
+SET @has_payment_status := (SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='dispatch_orders' AND column_name='payment_status');
+SET @sql := IF(@has_payment_status=0, "ALTER TABLE dispatch_orders ADD COLUMN payment_status ENUM('pending','paid','failed','refunded') NOT NULL DEFAULT 'pending' AFTER delivery_fee", 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+
 -- Run once. This migration is written to be safe to re-run.
 SET @has_email_verified := (SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='users' AND column_name='email_verified');
 SET @sql := IF(@has_email_verified=0, 'ALTER TABLE users ADD COLUMN email_verified TINYINT(1) NOT NULL DEFAULT 1 AFTER status', 'SELECT 1');

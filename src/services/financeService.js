@@ -5,3 +5,6 @@ export const getRiderWallet = async () => (await api.get("?route=finance&action=
 export const requestPayout = async (amount, note = "") => (await api.post("?route=finance&action=payout-request", { amount, note })).data;
 export const getPayouts = async () => (await api.get("?route=finance&action=payouts")).data;
 export const processPayout = async (payout_request_id, action, note = "") => (await api.post("?route=finance&action=process-payout", { payout_request_id, action, note })).data;
+
+export const savePayoutAccount = async (bank_name, account_name, account_number) => (await api.post("?route=finance&action=payout-account", { bank_name, account_name, account_number })).data;
+export const getAdminPayouts = async () => (await api.get("?route=finance&action=admin-payouts")).data;
